@@ -62,3 +62,41 @@ CREATE TABLE IF NOT EXISTS audit_log (
   target_id TEXT,
   created_at TEXT
 );
+
+-- 材料台账：入库时按批号登记总量与有效期
+CREATE TABLE IF NOT EXISTS material_stock (
+  id INTEGER PRIMARY KEY,
+  material_name TEXT,
+  batch_no TEXT UNIQUE,
+  total_amount REAL,
+  unit TEXT,
+  expire_date TEXT,
+  stocked_in_at TEXT,
+  stocked_in_by TEXT
+);
+
+-- 材料领用单：步骤开始后由操作人领用，完工后由另一名修复师按批号复核
+-- status: PENDING_PICKUP / ISSUED / PENDING_REVIEW / REVIEWED / ARCHIVED
+CREATE TABLE IF NOT EXISTS material_requisition (
+  id INTEGER PRIMARY KEY,
+  requisition_no TEXT,
+  plan_id TEXT,
+  step_id TEXT,
+  batch_no TEXT,
+  material_name TEXT,
+  used_amount REAL,
+  unit TEXT,
+  opened_at TEXT,
+  operator_id TEXT,
+  status TEXT,
+  completed_at TEXT,
+  reviewer_id TEXT,
+  reviewed_at TEXT,
+  review_note TEXT,
+  replaced_requisition_id TEXT,
+  archived_at TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_material_requisition_batch ON material_requisition (batch_no);
+CREATE INDEX IF NOT EXISTS idx_material_requisition_plan_step ON material_requisition (plan_id, step_id);
+CREATE INDEX IF NOT EXISTS idx_material_requisition_status ON material_requisition (status);
