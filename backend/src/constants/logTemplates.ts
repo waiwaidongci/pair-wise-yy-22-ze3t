@@ -3,5 +3,7 @@ export const LOG_TEMPLATES = {
   DamageRecord: ["DamageRecord.create", "DamageRecord.update", "DamageRecord.status", "DamageRecord.export"],
   RestorationPlan: ["RestorationPlan.create", "RestorationPlan.update", "RestorationPlan.status", "RestorationPlan.export"],
   RestorationStep: ["RestorationStep.create", "RestorationStep.update", "RestorationStep.status", "RestorationStep.export"],
-  ImageVersion: ["ImageVersion.create", "ImageVersion.update", "ImageVersion.status", "ImageVersion.export"]
+  ImageVersion: ["ImageVersion.create", "ImageVersion.update", "ImageVersion.status", "ImageVersion.export"],
+  MaterialBatch: ["MaterialBatch.create", "MaterialBatch.update", "MaterialBatch.status", "MaterialBatch.export"],
+  MaterialIssue: ["MaterialIssue.create", "MaterialIssue.issue", "MaterialIssue.review", "MaterialIssue.archive"]
 };

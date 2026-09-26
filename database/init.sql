@@ -54,6 +54,36 @@ CREATE TABLE IF NOT EXISTS image_version (
   note TEXT
 );
 
+CREATE TABLE IF NOT EXISTS material_batch (
+  id INTEGER PRIMARY KEY,
+  batch_no TEXT,
+  material_name TEXT,
+  total_quantity REAL,
+  unit TEXT,
+  expiry_date TEXT,
+  stocked_by TEXT,
+  stocked_at TEXT,
+  note TEXT
+);
+
+CREATE TABLE IF NOT EXISTS material_issue (
+  id INTEGER PRIMARY KEY,
+  issue_no TEXT,
+  batch_id TEXT,
+  step_id TEXT,
+  plan_id TEXT,
+  operator_id TEXT,
+  quantity REAL,
+  opened_at TEXT,
+  status TEXT,
+  reviewer_id TEXT,
+  reviewed_at TEXT,
+  review_note TEXT,
+  round INTEGER,
+  created_at TEXT,
+  archived_at TEXT
+);
+
 CREATE TABLE IF NOT EXISTS audit_log (
   id INTEGER PRIMARY KEY,
   actor TEXT,

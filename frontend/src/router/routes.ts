@@ -16,6 +16,10 @@ export const routes = [
     "route": "/plans"
   },
   {
+    "name": "材料台账",
+    "route": "/materials"
+  },
+  {
     "name": "影像版本",
     "route": "/images"
   }

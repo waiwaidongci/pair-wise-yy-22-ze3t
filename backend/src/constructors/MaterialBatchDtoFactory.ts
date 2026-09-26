@@ -1,0 +1,1 @@
+export const createMaterialBatchDto = (overrides = {}) => ({ id: 0, batch_no: "", material_name: "", total_quantity: 0, unit: "g", expiry_date: "", stocked_by: 0, stocked_at: "", note: "", ...overrides });

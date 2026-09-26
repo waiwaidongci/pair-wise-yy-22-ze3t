@@ -57,6 +57,20 @@ backend/src/routes, controllers, services, models, repositories, middlewares, co
 - RelicCondition: constants/RelicCondition、types/RelicCondition、constructors、logTemplates、errorMessages、筛选器、展示组件/控制器均有引用。
 - PlanApprovalStatus: constants/PlanApprovalStatus、types/PlanApprovalStatus、constructors、logTemplates、errorMessages、筛选器、展示组件/控制器均有引用。
 - DamageSeverity: constants/DamageSeverity、types/DamageSeverity、constructors、logTemplates、errorMessages、筛选器、展示组件/控制器均有引用。
+- MaterialIssueStatus: `backend/src/constants/MaterialIssueStatus.ts`、`frontend/src/constants/MaterialIssueStatus.ts`（含中文文案表）、`frontend/src/constants/statusText.ts`、`backend/src/services/MaterialIssueService.ts`、`frontend/src/hooks/useMaterialIssueGuard.ts`、`frontend/src/components/common/MaterialIssueStatusBadge.tsx`、`frontend/src/pages/MaterialsPage.tsx`（列表筛选）、`frontend/src/pages/PlansPage.tsx`（方案进度）均有引用。
+
+## 材料台账（MaterialBatch + MaterialIssue）
+
+材料领用不再写进步骤备注，改为台账管理，贯穿 `database/init.sql` → 后端 routes/controllers/services/repositories/models/constructors/constants → 前端 api/stores/constructors/hooks/pages。
+
+- **入库登记**：`POST /api/material-batch`，按批号登记总量（克）与有效期；批次台账展示总量、剩余量与有效期。
+- **开单领用**：步骤开始后开领用单（`POST /api/material-issue`，单号 `MI-<步骤>-<轮次>`），操作人领用时记克数与开封时间（`POST /api/material-issue/:id/issue`）。页面与后端双重拦截并说明原因：
+  - `MATERIAL_EXPIRED` 材料已过期，禁止领用；
+  - `MATERIAL_OVER_ISSUED` 总领用量超过入库量（含已留档旧单的消耗）；
+  - `MATERIAL_BATCH_OCCUPIED` 同批号仍被另一个未结方案占用。
+- **复核**：完工后由另一名修复师按批号复核（`POST /api/material-issue/:id/review`），复核人与操作人相同会被 `MATERIAL_REVIEWER_CONFLICT` 挡住；复核通过才计入方案进度。
+- **退回重审**：`POST /api/material-issue/plan/:planId/return` 将方案在途领用单留档（ARCHIVED），重开步骤另开新单（轮次递增），旧单在「已归档」列表追查。
+- **列表**：材料台账页 `/materials` 提供待领用、待复核、已完成、已归档四个列表；修复方案页 `/plans` 展示各步骤领用单与方案进度。
 
 ## 为什么会牵一发动全身
 

@@ -1,0 +1,10 @@
+import { Router } from "express";
+import { materialIssueController } from "../controllers/MaterialIssueController";
+const router = Router();
+router.get("/", materialIssueController.list);
+router.post("/", materialIssueController.create);
+router.post("/:id/issue", materialIssueController.issue);
+router.post("/:id/review", materialIssueController.review);
+router.post("/plan/:planId/return", materialIssueController.archiveByPlan);
+router.get("/plan/:planId/progress", materialIssueController.planProgress);
+export default router;
